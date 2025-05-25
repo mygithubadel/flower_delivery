@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   flower_delivery_mysql:
     image: mysql:8.3
@@ -22,6 +20,7 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       DB_HOST: mysql
       DB_USER: user
