@@ -9,7 +9,7 @@ import {getUser, registerUser} from "./service";
 const router = Router();
 
 
-////////////// REGISTER
+// REGISTER
 router.post('/register', async (req: Request<{}, {}, RegisterRequestBody>, res: Response) => {
     const { error } = registerSchema.validate(req.body);
     if (error) {
@@ -31,7 +31,7 @@ router.post('/register', async (req: Request<{}, {}, RegisterRequestBody>, res: 
 
 
 
-////////////// LOGIN
+// LOGIN
 router.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Response) => {
     const { error } = loginSchema.validate(req.body);
     if (error) {
@@ -70,6 +70,7 @@ router.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Respon
     }
 });
 
+// PROFILE
 router.get('/profile', authenticateJWT, async (req: Request, res: Response) => {
   const tokenUser = (req as any).user;
   const dbUser = await getUser(tokenUser.username);

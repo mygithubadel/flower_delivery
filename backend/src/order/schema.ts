@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const orderSchema = Joi.object({
+export const orderCreateSchema = Joi.object({
     status: Joi.string().valid('pending', 'delivered', 'canceled').required(),
     flower_details: Joi.object().required(),
     quantity: Joi.number().integer().min(1).required(),

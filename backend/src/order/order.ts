@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { authenticateJWT } from '../auth';
-import {orderSchema, orderUpdateSchema} from "./schema";
+import {orderCreateSchema, orderUpdateSchema} from "./schema";
 import {OrderRequestBody} from "./types";
 import {createOrder, fetchOrderById, getOrders, updateOrder} from "./service";
 import {AuthenticatedUser} from "../user/types";
@@ -9,7 +9,7 @@ const router = Router();
 
 // CREATE
 router.post('/', authenticateJWT, async (req: Request<{}, {}, OrderRequestBody>, res: Response) => {
-    const { error } = orderSchema.validate(req.body);
+    const { error } = orderCreateSchema.validate(req.body);
     if (error) {
         res.status(400).json({ error: error.details[0].message });
         return;
