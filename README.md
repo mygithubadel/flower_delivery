@@ -30,8 +30,14 @@ a number of functional tests were added to the project, they use a second databa
 
 there is a separate file for envionment variables for the test environment, its located in /backend/.env.test, tests are currently configured to be executed on the host machine.
 
-in the backend directory, run 
+in the backend directory: 
 
+install node modules
+```bash
+npm i
+```
+
+run the tests
 ```bash
 npm test
 ```
