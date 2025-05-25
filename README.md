@@ -29,16 +29,18 @@ postman-collection.json
 
 a number of functional tests were added to the project, they use a second database for testing, the tables will be emptied after the test is completed.
 
-there is a separate file for envionment variables for the test environment, its located in /backend/.env.test, tests are currently configured to be executed on the host machine.
+there is a separate file for environment variables for the test environment, it is located in /backend/.env.test, tests are currently configured to be executed on the host machine.
 
-in the backend directory: 
+**prerequisites**: **node** and **npm** installed on the host machine.
 
-install node modules
+in the '**backend**' directory: 
+
+install node modules:
 ```bash
 npm i
 ```
 
-run the tests
+run the tests:
 ```bash
 npm test
 ```
