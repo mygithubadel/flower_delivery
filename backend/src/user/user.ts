@@ -70,9 +70,11 @@ router.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Respon
     }
 });
 
-router.get('/profile', authenticateJWT, (req, res) => {
-  const user = (req as any).user;
-  res.json({ message: `Hello ${user.email}`, user });
+router.get('/profile', authenticateJWT, async (req: Request, res: Response) => {
+  const tokenUser = (req as any).user;
+  const dbUser = await getUser(tokenUser.username);
+  const responseUser = {id: dbUser.id, username: dbUser.username,email: dbUser.email, phone: dbUser.phone};
+  res.json(responseUser);
 });
 
 
