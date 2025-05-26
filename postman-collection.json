@@ -69,6 +69,33 @@
         }
       }
     },
+	{
+      "name": "Invite User (Protected)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer <YOUR_TOKEN>"
+          },
+		  {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuserinvite\",\n  \"email\": \"test@example-invite.com\",\n  \"password\": \"password123\",\n  \"phone\": \"0712345678\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/users/invite",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "users", "invite"]
+        }
+      }
+    },
     {
       "name": "Get Orders (Protected)",
       "request": {

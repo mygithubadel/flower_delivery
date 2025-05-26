@@ -4,10 +4,10 @@ import {DatabaseUser, RegisterRequestBody} from "./types";
 import {getDBConnection} from "../db";
 import bcrypt from "bcryptjs";
 
-export const registerUser = async (registrationData: RegisterRequestBody) => {
+export const registerUser = async (registrationData: RegisterRequestBody, invitedBy?: number) => {
     const hashed = await bcrypt.hash(registrationData.password, 10);
     const conn = await getDBConnection();
-    const { sql, values } = generateInsertUserQuery(registrationData.username, registrationData.email, registrationData.phone, hashed);
+    const { sql, values } = generateInsertUserQuery(registrationData.username, registrationData.email, registrationData.phone, hashed, invitedBy);
 
     return new Promise((resolve, reject) => {
         conn.query(

@@ -22,4 +22,5 @@ export interface DatabaseUser {
     username: string;
     phone: string;
     id: number;
+    invited_by?: number
 }

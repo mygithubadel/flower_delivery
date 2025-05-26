@@ -8,7 +8,6 @@ import {getUser, registerUser} from "./service";
 
 const router = Router();
 
-
 // REGISTER
 router.post('/register', async (req: Request<{}, {}, RegisterRequestBody>, res: Response) => {
     const { error } = registerSchema.validate(req.body);
@@ -28,8 +27,6 @@ router.post('/register', async (req: Request<{}, {}, RegisterRequestBody>, res: 
         res.status(500).json({ error: 'Database error' });
     }
 });
-
-
 
 // LOGIN
 router.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Response) => {
@@ -74,8 +71,35 @@ router.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Respon
 router.get('/profile', authenticateJWT, async (req: Request, res: Response) => {
   const tokenUser = (req as any).user;
   const dbUser = await getUser(tokenUser.username);
-  const responseUser = {id: dbUser.id, username: dbUser.username,email: dbUser.email, phone: dbUser.phone};
+  const responseUser = {
+      id: dbUser.id,
+      username: dbUser.username,
+      email: dbUser.email,
+      phone: dbUser.phone,
+      invited_by: dbUser.invited_by || undefined
+  };
   res.json(responseUser);
+});
+
+// INVITE
+router.post('/invite', authenticateJWT, async (req: Request<{}, {}, RegisterRequestBody>, res: Response) => {
+    const tokenUser = (req as any).user;
+    const { error } = registerSchema.validate(req.body);
+    if (error) {
+        res.status(400).json({ error: error.details[0].message });
+        return;
+    }
+
+    try {
+        const userId = await registerUser(req.body, tokenUser.id)
+        res.status(201).json({ message: 'User invited', userId });
+    } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            res.status(409).json({ error: 'Username or email already exists' });
+            return;
+        }
+        res.status(500).json({ error: 'Database error' });
+    }
 });
 
 

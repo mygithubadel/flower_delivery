@@ -325,6 +325,143 @@ describe('User and Order API', () => {
     });
 
 
+    describe('User invite', () => {
+        const inviterUsername = `inviter_${Date.now()}`;
+        const inviterEmail = `inviter${Date.now()}@example.com`;
+        const inviterPassword = 'securePass123!';
+        const inviterPhone = '+40711111111';
+
+        let invitedUsername: string;
+        let invitedEmail: string;
+        const invitedPassword = 'invitePass123!';
+
+        let inviterToken: string;
+
+        beforeAll(async () => {
+            // Register the main user
+            await request(server)
+                .post('/api/users/register')
+                .send({
+                    username: inviterUsername,
+                    email: inviterEmail,
+                    password: inviterPassword,
+                    phone: inviterPhone,
+                });
+
+            // Login to get token
+            const res = await request(server)
+                .post('/api/users/login')
+                .send({
+                    username: inviterUsername,
+                    password: inviterPassword,
+                });
+
+            expect(res.statusCode).toBe(200);
+            inviterToken = res.body.token;
+        });
+
+        it('should allow an authenticated user to invite a new user', async () => {
+            invitedUsername = `invited_${Date.now()}`;
+            invitedEmail = `invited${Date.now()}@example.com`;
+
+            const res = await request(server)
+                .post('/api/users/invite')
+                .set('Authorization', `Bearer ${inviterToken}`)
+                .send({
+                    username: invitedUsername,
+                    email: invitedEmail,
+                    password: invitedPassword,
+                    phone: '+40722222222',
+                });
+
+            expect(res.statusCode).toBe(201);
+            expect(res.body).toHaveProperty('message', 'User invited');
+            expect(res.body).toHaveProperty('userId');
+        });
+
+        it('should allow the invited user to login', async () => {
+            const res = await request(server)
+                .post('/api/users/login')
+                .send({
+                    username: invitedUsername,
+                    password: invitedPassword,
+                });
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty('token');
+        });
+
+        it('should fail with 400 if invite payload is invalid', async () => {
+            const res = await request(server)
+                .post('/api/users/invite')
+                .set('Authorization', `Bearer ${inviterToken}`)
+                .send({}); // invalid payload
+
+            expect(res.statusCode).toBe(400);
+            expect(res.body).toHaveProperty('error');
+        });
+
+        it('should return 401 if invite is attempted without authentication', async () => {
+            const res = await request(server)
+                .post('/api/users/invite')
+                .send({
+                    username: 'unauthUser',
+                    email: 'unauth@example.com',
+                    password: 'password123',
+                    phone: '+40733333333',
+                });
+
+            expect(res.statusCode).toBe(401);
+        });
+
+        it('should return 409 if invited username or email already exists', async () => {
+            const duplicateUsername = `dupe_${Date.now()}`;
+            const duplicateEmail = `dupe${Date.now()}@example.com`;
+
+            // Invite once
+            const firstRes = await request(server)
+                .post('/api/users/invite')
+                .set('Authorization', `Bearer ${inviterToken}`)
+                .send({
+                    username: duplicateUsername,
+                    email: duplicateEmail,
+                    password: 'testpass123',
+                    phone: '+40744444444',
+                });
+
+            expect(firstRes.statusCode).toBe(201);
+
+            // Invite again with same username
+            const dupUsernameRes = await request(server)
+                .post('/api/users/invite')
+                .set('Authorization', `Bearer ${inviterToken}`)
+                .send({
+                    username: duplicateUsername,
+                    email: `another${Date.now()}@example.com`,
+                    password: 'testpass123',
+                    phone: '+40755555555',
+                });
+
+            expect(dupUsernameRes.statusCode).toBe(409);
+            expect(dupUsernameRes.body).toHaveProperty('error', 'Username or email already exists');
+
+            // Invite again with same email
+            const dupEmailRes = await request(server)
+                .post('/api/users/invite')
+                .set('Authorization', `Bearer ${inviterToken}`)
+                .send({
+                    username: `anotheruser_${Date.now()}`,
+                    email: duplicateEmail,
+                    password: 'testpass123',
+                    phone: '+40766666666',
+                });
+
+            expect(dupEmailRes.statusCode).toBe(409);
+            expect(dupEmailRes.body).toHaveProperty('error', 'Username or email already exists');
+        });
+
+    });
+
 });
 
 const resetTestedTables = async () => {
