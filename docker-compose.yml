@@ -1,0 +1,34 @@
+services:
+  flower_delivery_mysql:
+    image: mysql:8.3
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: youshallnotpass
+      MYSQL_DATABASE: flower_delivery
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - database:/var/lib/mysql
+      - ./backend/mysql-init:/docker-entrypoint-initdb.d
+
+  flower_delivery_backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      DB_HOST: mysql
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: flower_delivery
+    depends_on:
+      - flower_delivery_mysql
+    command: ["ts-node-dev", "--respawn", "--transpile-only", "--poll", "src/index.ts"]
+
+volumes:
+  database:
