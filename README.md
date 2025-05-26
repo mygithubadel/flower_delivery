@@ -54,32 +54,39 @@ $ npm test
 PASS test/user_order.test.ts
   User and Order API
     User authentication
-      √ should return 401 Unauthorized when accessing orders without a token (22 ms)
-      √ should register a new user (125 ms)
-      √ should login user and get JWT token (73 ms)
-      √ should return 409 conflict if username or email already exists (143 ms)
+      √ should return 401 Unauthorized when accessing orders without a token (36 ms)
+      √ should register a new user (170 ms)
+      √ should login user and get JWT token (80 ms)
+      √ should return 409 conflict if username or email already exists (160 ms)
     Order create / update / fetch
-      √ should create a new order and return the created order (14 ms)
-      √ should fetch the order for the user (6 ms)
-      √ should update all of the order fields and return the updated order (12 ms)
-      √ should partially update the order and return the updated order (11 ms)
-      √ should fetch orders filtered by status (6 ms)
-      √ should create another order and fetch it along the previously created order (14 ms)
-      √ should reject updating an order not owned by the user (154 ms)
+      √ should create a new order and return the created order (18 ms)
+      √ should fetch the order for the user (7 ms)
+      √ should update all of the order fields and return the updated order (17 ms)
+      √ should partially update the order and return the updated order (18 ms)
+      √ should fetch orders filtered by status (11 ms)
+      √ should create another order and fetch it along the previously created order (21 ms)
+      √ should reject updating an order not owned by the user (176 ms)
     Order validation schema
-      √ should return 400 when creating order with missing required fields (4 ms)
-      √ should return 400 when creating order with invalid values (4 ms)
+      √ should return 400 when creating order with missing required fields (5 ms)
+      √ should return 400 when creating order with invalid values (5 ms)
       √ should return 400 when updating order with no fields provided (4 ms)
-      √ should return 400 when updating order with invalid field types (4 ms)
+      √ should return 400 when updating order with invalid field types (5 ms)
     User validation schema
-      √ should return 400 when registering with missing fields (3 ms)
-      √ should return 400 when registering with invalid email, password, phone, or username (3 ms)
-      √ should return 400 when logging in with missing fields (3 ms)
-      √ should return 400 when logging in with invalid username or password (3 ms)
+      √ should return 400 when registering with missing fields (5 ms)
+      √ should return 400 when registering with invalid email, password, phone, or username (4 ms)
+      √ should return 400 when logging in with missing fields (4 ms)
+      √ should return 400 when logging in with invalid username or password (4 ms)
+    User invite
+      √ should allow an authenticated user to invite a new user (81 ms)
+      √ should allow the invited user to login (75 ms)
+      √ should fail with 400 if invite payload is invalid (6 ms)
+      √ should return 401 if invite is attempted without authentication (4 ms)
+      √ should return 409 if invited username or email already exists (231 ms)
 
 Test Suites: 1 passed, 1 total
-Tests:       19 passed, 19 total
+Tests:       24 passed, 24 total
 Snapshots:   0 total
-Time:        2.472 s, estimated 4 s
+Time:        4.323 s, estimated 15 s
 Ran all test suites.
+
 ```
