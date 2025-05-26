@@ -21,9 +21,15 @@
         "url": {
           "raw": "http://localhost:3000/api/users/register",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "users", "register"]
+          "path": [
+            "api",
+            "users",
+            "register"
+          ]
         }
       }
     },
@@ -44,12 +50,18 @@
         "url": {
           "raw": "http://localhost:3000/api/users/login",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "users", "login"]
+          "path": [
+            "api",
+            "users",
+            "login"
+          ]
         }
       }
-    },    
+    },
     {
       "name": "Get User Profile (Protected)",
       "request": {
@@ -63,13 +75,19 @@
         "url": {
           "raw": "http://localhost:3000/api/users/profile",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "users", "profile"]
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
         }
       }
     },
-	{
+    {
       "name": "Invite User (Protected)",
       "request": {
         "method": "POST",
@@ -78,7 +96,7 @@
             "key": "Authorization",
             "value": "Bearer <YOUR_TOKEN>"
           },
-		  {
+          {
             "key": "Content-Type",
             "value": "application/json"
           }
@@ -90,9 +108,15 @@
         "url": {
           "raw": "http://localhost:3000/api/users/invite",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "users", "invite"]
+          "path": [
+            "api",
+            "users",
+            "invite"
+          ]
         }
       }
     },
@@ -109,9 +133,14 @@
         "url": {
           "raw": "http://localhost:3000/api/orders",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "orders"]
+          "path": [
+            "api",
+            "orders"
+          ]
         }
       }
     },
@@ -136,9 +165,14 @@
         "url": {
           "raw": "http://localhost:3000/api/orders",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "orders"]
+          "path": [
+            "api",
+            "orders"
+          ]
         }
       }
     },
@@ -163,9 +197,15 @@
         "url": {
           "raw": "http://localhost:3000/api/orders/1",
           "protocol": "http",
-          "host": ["localhost"],
+          "host": [
+            "localhost"
+          ],
           "port": "3000",
-          "path": ["api", "orders", "1"]
+          "path": [
+            "api",
+            "orders",
+            "1"
+          ]
         }
       }
     }
